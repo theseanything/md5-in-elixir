@@ -1,21 +1,25 @@
-# Md5
+# MD5 in Elixir
 
-**TODO: Add description**
+This is a implementation of the MD5 algorithm written in pure Elixir. The code was written as a learning exercise following the MD5 specification found [here](https://tools.ietf.org/html/rfc1321).
 
-## Installation
+## Usage
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `md5` to your list of dependencies in `mix.exs`:
+Load the code in the Elixir REPL:
 
-```elixir
-def deps do
-  [
-    {:md5, "~> 0.1.0"}
-  ]
-end
+```bash
+iex -S Mix
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/md5](https://hexdocs.pm/md5).
+To calculate the MD5 hash:
 
+```elixir
+iex(1)> Md5.digest("Hello world")
+"3e25960a79dbc69b674cd4ec67a72c62"
+```
+
+To calculate the checksum of a file:
+
+```elixir
+iex(1)> Md5.digest_file("./README.md")
+"8b1d50c6e91ca212a8af9bab047de574"
+```

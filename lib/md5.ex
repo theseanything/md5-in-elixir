@@ -12,6 +12,7 @@ defmodule Md5 do
       6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21,
   }
 
+  # Pre-defined initial values of message digest buffer
   @buffer_preset {0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476}
 
   @doc """
