@@ -112,23 +112,12 @@ defmodule Md5 do
 
   # Produced padded message according to MD5 specification
   def pad(message) do
-    bits = bit_size(message)
-    # Remaining bits to make up to 512
-    r_bits = 512 - rem(bits, 512)
+    message_length = bit_size(message)
 
-    # Bits to add - add 512 extra if not enough remain to add message size + 1
-    p_bits =
-      if r_bits < 65 do
-        r_bits + 512
-      else
-        r_bits
-      end
-
-    # Number of zero bits to add
-    z_bits = p_bits - 65
+    zero_bit_length = 512 - rem(message_length + 65, 512)
 
     # Message + 1 + (..000..)? + size of message
-    <<message::binary, 1::little-size(1), 0::little-size(z_bits), bits::little-size(64)>>
+    <<message::binary, 1::little-size(1), 0::little-size(zero_bit_length), message_length::little-size(64)>>
   end
 
   def leftrotate(b, shift) do

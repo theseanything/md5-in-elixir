@@ -33,4 +33,12 @@ defmodule Md5Test do
   test "hash numerical string" do
     assert Md5.digest("12345678901234567890123456789012345678901234567890123456789012345678901234567890") == "57edf4a22be3c955ac49da2e2107b67a"
   end
+
+  test "hash string exactly 512 bits" do
+    assert Md5.digest(String.duplicate("a", 64)) == "014842d480b571495a4a0363793f7367"
+  end
+
+  test "hash string requiring extra padding for 1 and length" do
+    assert Md5.digest(String.duplicate("a", 62)) == "24612f0ce2c9d2cf2b022ef1e027a54f"
+  end
 end
