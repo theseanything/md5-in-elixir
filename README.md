@@ -1,6 +1,6 @@
 # MD5 in Elixir
 
-This is a implementation of the MD5 algorithm written in pure Elixir. The code was written as a learning exercise following the MD5 specification found [here](https://tools.ietf.org/html/rfc1321).
+This is a implementation of the MD5 algorithm written in pure Elixir. The code was written as a learning exercise following the MD5 specification found [here](https://tools.ietf.org/html/rfc1321). MD5 is a fast general purpose hash it can be easily brute-forced by today's computing power. So definitely don't use it for anything you want to keep secure. However it can be useful to check for tampering or corruption in files or data (e.g. checksums).
 
 ## Usage
 
