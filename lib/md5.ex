@@ -26,6 +26,11 @@ defmodule Md5 do
 
   @buffer_preset {0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476}
 
+  def overflow(value) do
+    # Use bitwise 'AND' to mask anything more than 32 bits and "emulate" an overflow
+    value &&& 0xFFFFFFFF
+  end
+
   # Some more constants
   def calc_constant(i) do
     trunc(:math.pow(2, 32) * abs(:math.sin(i + 1))) &&& 0xFFFFFFFF
@@ -65,13 +70,12 @@ defmodule Md5 do
     {a_new, b_new, c_new, d_new} = step(0, chunk, a, b, c, d)
 
     # Add new segments to old segments and process rest of message
-    # Use bitwise 'AND' to mask anything more than 32 bits and "emulate" an overflow
     process_message(
       remaining,
-      a_new + a &&& 0xFFFFFFFF,
-      b_new + b &&& 0xFFFFFFFF,
-      c_new + c &&& 0xFFFFFFFF,
-      d_new + d &&& 0xFFFFFFFF
+      overflow(a_new + a),
+      overflow(b_new + b),
+      overflow(c_new + c),
+      overflow(d_new + d)
     )
   end
 
@@ -106,7 +110,7 @@ defmodule Md5 do
 
     # Where A influences the algorithm and rotation
     to_rotate = a + f + chunk + t
-    b_new = b + leftrotate(to_rotate, elem(@shift_constants, i)) &&& 0xFFFFFFFF
+    b_new = overflow(b + leftrotate(to_rotate, elem(@shift_constants, i)))
 
     # Next step A -> D, B -> New B, C -> B, D -> C
     step(i + 1, m, d, b_new, b, c)
@@ -123,8 +127,8 @@ defmodule Md5 do
   end
 
   def leftrotate(b, shift) do
-    b_ = b &&& 0xFFFFFFFF
-    (b_ <<< shift ||| b_ >>> (32 - shift)) &&& 0xFFFFFFFF
+    b_ = overflow(b)
+    overflow(b_ <<< shift ||| b_ >>> (32 - shift))
   end
 end
 
