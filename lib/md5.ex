@@ -24,6 +24,8 @@ defmodule Md5 do
       6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21,
   }
 
+  @buffer_preset {0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476}
+
   # Some more constants
   def calc_constant(i) do
     trunc(:math.pow(2, 32) * abs(:math.sin(i + 1))) &&& 0xFFFFFFFF
@@ -42,7 +44,7 @@ defmodule Md5 do
 
   # Generate bit hash
   def hash(message) do
-    {a, b, c, d} = {0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476}
+    {a, b, c, d} = @buffer_preset
 
     padded_message = pad(message)
     process_message(padded_message, a, b, c, d)
@@ -112,12 +114,12 @@ defmodule Md5 do
 
   # Produced padded message according to MD5 specification
   def pad(message) do
-    message_length = bit_size(message)
+    msg_length = bit_size(message)
 
-    zero_bit_length = 512 - rem(message_length + 65, 512)
+    num_of_zeros = 512 - rem(msg_length + 65, 512)
 
     # Message + 1 + (..000..)? + size of message
-    <<message::binary, 1::little-size(1), 0::little-size(zero_bit_length), message_length::little-size(64)>>
+    <<message::binary, 1::little-size(1), 0::little-size(num_of_zeros), msg_length::little-size(64)>>
   end
 
   def leftrotate(b, shift) do
