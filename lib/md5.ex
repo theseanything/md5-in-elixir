@@ -8,8 +8,8 @@ defmodule Md5 do
 
   ## Examples
 
-      iex> Md5.hello
-      :world
+      iex> Md5.digest("Hello world")
+      "3e25960a79dbc69b674cd4ec67a72c62"
 
   """
 
