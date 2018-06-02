@@ -19,7 +19,7 @@ defmodule Md5 do
   Used to calculate the constants of the 64-element table defined in the specification.
   """
   def calc_constant(i) do
-    trunc(:math.pow(2, 32) * abs(:math.sin(i + 1))) &&& 0xFFFFFFFF
+    overflow(trunc(:math.pow(2, 32) * abs(:math.sin(i + 1))))
   end
 
   @doc """
